@@ -33,7 +33,10 @@
             </div>
             <div class="mb-3">
                 <label for="oldFile" class="form-label">File Lama : </label>
-                <a href="{{ route('dashboard.download', $document->drive_id) }}">{{ $document->title }}</a>
+                <a style="font-size: 14px; color: blue; cursor: pointer; " data-bs-toggle="modal"
+                    data-bs-target="#previewModal">
+                    Lihat dokumen
+                </a>
             </div>
             <div class="mb-4">
                 <label for="fileDocument" class="form-label">Ganti File</label>
@@ -42,5 +45,24 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">(Preview) {{ $document->title }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="height: 70vh;">
+                    <iframe src="https://drive.google.com/file/d/{{ $fileId }}/preview" width="100%" height="100%"
+                        allow="autoplay"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection

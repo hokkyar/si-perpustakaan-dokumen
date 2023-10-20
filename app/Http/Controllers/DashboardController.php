@@ -70,7 +70,9 @@ class DashboardController extends Controller
   public function edit(string $id)
   {
     $document = Document::find($id);
-    return view('pages.edit', compact('document'));
+    $file = Gdrive::all('/')->where('path', '=', $document->drive_id)->first();
+    $fileId = $file['extraMetadata']['id'];
+    return view('pages.edit', compact('document', 'fileId'));
   }
 
   public function update(Request $request, string $id)
