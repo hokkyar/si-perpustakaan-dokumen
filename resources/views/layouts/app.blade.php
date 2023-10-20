@@ -30,8 +30,11 @@ if (isset($link)) {
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
                 aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href="">
-                <img src="{{ asset('img/logo-disdikpora.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Disdikpora Buleleng</span>
+                @php
+                    $path = str_replace('public/', 'storage/', $profiles->image_url);
+                @endphp
+                <img src="{{ asset($path) }}" class="navbar-brand-img h-100" alt="main_logo">
+                <span class="ms-1 font-weight-bold">{{ $profiles->name }}</span>
             </a>
         </div>
 
@@ -122,7 +125,7 @@ if (isset($link)) {
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end  px-2 py-3 me-sm-n4">
                                 <li>
-                                    <a href="/setting" style="vertical-align: middle" class="dropdown-item">
+                                    <a href="/settings" style="vertical-align: middle" class="dropdown-item">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                             fill="currentColor" class="bi bi-gear-wide-connected"
                                             viewBox="0 0 16 16">

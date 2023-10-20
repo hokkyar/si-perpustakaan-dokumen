@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,8 @@ Route::get('/dashboard/download/{drive_id}', [DashboardController::class, 'downl
 Route::get('/login', [AuthController::class, 'index'])->name('page.login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/settings', [SettingController::class, 'index'])->name('page.setting')->middleware('checkLogin');
+Route::put('/settings/profile', [SettingController::class, 'changeProfile'])->name('page.setting.profile')->middleware('checkLogin');
+Route::put('/settings/token', [SettingController::class, 'updateToken'])->name('page.setting.token')->middleware('checkLogin');
+Route::put('/settings/password', [SettingController::class, 'changePassword'])->name('page.setting.password')->middleware('checkLogin');
