@@ -34,15 +34,8 @@
 
         <div class="card card-body w-75 mb-3 mx-auto">
             <h5 class="text-bold text-center mb-3">Preview</h5>
-            @if (pathinfo($document->drive_id)['extension'] == 'pdf')
-                <iframe src="https://drive.google.com/uc?export=view&id={{ $fileId }}" frameborder="0" width="100%"
-                    height="400" class="mx-auto"></iframe>
-            @endif
-
-            @if (pathinfo($document->drive_id)['extension'] == 'csv' || pathinfo($document->drive_id)['extension'] == 'xlsx')
-                <iframe src="https://drive.google.com/file/d/{{ $fileId }}/preview" width="100%" height="480"
-                    allow="autoplay"></iframe>
-            @endif
+            <iframe src="https://drive.google.com/file/d/{{ $fileId }}/preview" width="100%" height="480"
+                allow="autoplay"></iframe>
         </div>
 
     </div>
