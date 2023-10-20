@@ -28,6 +28,10 @@ class DashboardController extends Controller
 
   public function download(string $drive_id)
   {
+    if (!isInternetConnected()) {
+      return redirect('/dashboard')->with('errors', 'Download gagal. Anda sedang offline');
+    }
+
     $data = Gdrive::get($drive_id);
     return response($data->file, 200)
       ->header('Content-Type', $data->ext)
@@ -69,6 +73,11 @@ class DashboardController extends Controller
 
   public function edit(string $id)
   {
+
+    if (!isInternetConnected()) {
+      return redirect('/dashboard')->with('errors', 'Gagal memuat. Anda sedang offline');
+    }
+
     $document = Document::find($id);
     $file = Gdrive::all('/')->where('path', '=', $document->drive_id)->first();
     $fileId = $file['extraMetadata']['id'];
@@ -77,6 +86,10 @@ class DashboardController extends Controller
 
   public function update(Request $request, string $id)
   {
+    if (!isInternetConnected()) {
+      return redirect('dashboard/' . $id)->with('errors', 'Update gagal. Anda sedang offline');
+    }
+
     $document = Document::find($id);
     try {
       if ($request->file('fileDocument')) {
@@ -99,6 +112,9 @@ class DashboardController extends Controller
 
   public function destroy(string $id)
   {
+    if (!isInternetConnected()) {
+      return redirect('/dashboard')->with('errors', 'Gagal menghapus. Anda sedang offline');
+    }
     try {
       $document = Document::find($id);
       $document->delete();
