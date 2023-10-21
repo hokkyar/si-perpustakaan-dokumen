@@ -32,10 +32,16 @@ class DashboardController extends Controller
       return redirect('/dashboard')->with('errors', 'Download gagal. Anda sedang offline');
     }
 
-    $data = Gdrive::get($drive_id);
-    return response($data->file, 200)
-      ->header('Content-Type', $data->ext)
-      ->header('Content-disposition', 'attachment; filename="' . $data->filename . '"');
+    try {
+      $data = Gdrive::get($drive_id);
+      return response($data->file, 200)
+        ->header('Content-Type', $data->ext)
+        ->header('Content-disposition', 'attachment; filename="' . $data->filename . '"');
+    } catch (\Exception $e) {
+      if ($e->getCode() == 401) {
+        return redirect('/dashboard')->with('errors', 'Download gagal. Token tidak valid');
+      }
+    }
   }
 
   public function show(string $id)
@@ -62,9 +68,8 @@ class DashboardController extends Controller
 
       confirmDelete('Warning', 'Yakin ingin menghapus file ini?');
     } catch (\Exception $e) {
-      dd($e);
       if ($e->getCode() == 401) {
-        dd("ERROR MISSING AUTHENTICATION INI WOI");
+        return redirect('/dashboard')->with('errors', 'Token tidak valid');
       }
       return redirect('/dashboard')->with('errors', 'Terjadi kesalahan');
     }
@@ -78,10 +83,17 @@ class DashboardController extends Controller
       return redirect('/dashboard')->with('errors', 'Gagal memuat. Anda sedang offline');
     }
 
-    $document = Document::find($id);
-    $file = Gdrive::all('/')->where('path', '=', $document->drive_id)->first();
-    $fileId = $file['extraMetadata']['id'];
-    return view('pages.edit', compact('document', 'fileId'));
+    try {
+      $document = Document::find($id);
+      $file = Gdrive::all('/')->where('path', '=', $document->drive_id)->first();
+      $fileId = $file['extraMetadata']['id'];
+      return view('pages.edit', compact('document', 'fileId'));
+    } catch (\Exception $e) {
+      if ($e->getCode() == 401) {
+        return redirect('/dashboard')->with('errors', 'Token tidak valid');
+      }
+      return redirect('/dashboard')->with('errors', 'Terjadi kesalahan');
+    }
   }
 
   public function update(Request $request, string $id)
@@ -104,6 +116,9 @@ class DashboardController extends Controller
       $document->catalog = $request->input('catalog');
       $document->save();
     } catch (\Exception $e) {
+      if ($e->getCode() == 401) {
+        return redirect('/dashboard')->with('errors', 'Update gagal. Token tidak valid');
+      }
       return redirect('dashboard/' . $id)->with('errors', 'Terjadi kesalahan');
     }
 
@@ -120,6 +135,9 @@ class DashboardController extends Controller
       $document->delete();
       Gdrive::delete($document->drive_id);
     } catch (\Exception $e) {
+      if ($e->getCode() == 401) {
+        return redirect('/dashboard')->with('errors', 'Hapus gagal. Token tidak valid');
+      }
       return redirect('dashboard/' . $id)->with('errors', 'Terjadi kesalahan');
     }
     return redirect('/dashboard')->with('toast_success', 'Data berhasil dihapus');

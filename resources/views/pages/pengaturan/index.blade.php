@@ -5,6 +5,24 @@
 @section('page', 'Pengaturan')
 
 @section('content')
+    <style>
+        .modal-content {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-content table {
+            width: 100%;
+        }
+
+        .modal-content table tbody tr {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 5px 0;
+        }
+    </style>
+
     <div>
         <div class="card card-body w-100 mb-3 mx-auto">
             <div class="d-flex justify-content-between flex-wrap">
@@ -44,26 +62,27 @@
                         @csrf
                         @method('PUT')
                         <div class="mb-2">
+                            <svg data-bs-toggle="modal" data-bs-target="#secretKey" xmlns="http://www.w3.org/2000/svg"
+                                width="16" height="16" fill="currentColor" class="bi bi-key" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z" />
+                                <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                            </svg>
                             <label for="refreshToken" class="form-label">Token Baru</label>
                             <input type="text" class="form-control" id="refreshToken" name="refreshToken"
                                 aria-describedby="refreshTokenHelp" autocomplete="off" required
                                 placeholder="Masukkan token baru">
                         </div>
-                        <button type="submit" class="btn btn-success mt-3">Perbarui</button>
+                        <button onclick="return confirm('Perbarui token?')" type="submit"
+                            class="btn btn-success mt-3">Perbarui</button>
                     </form>
                 </div>
 
                 <div class="w-50 p-3">
-                    <p>Ganti Password</p>
+                    <p> Ganti Password</p>
                     <form action="{{ route('page.setting.password') }}" method="POST">
                         @csrf
                         @method('PUT')
-                        {{-- <div class="mb-2">
-                            <label for="username" class="form-label">Username</label>
-                            <input value="admin" type="text" class="form-control" id="username" name="username"
-                                aria-describedby="usernameHelp" autocomplete="off" required
-                                placeholder="Masukkan username baru">
-                        </div> --}}
                         <div class="mb-2">
                             <label for="oldPassword" class="form-label">Password Lama</label>
                             <input type="password" class="form-control" id="oldPassword" name="oldPassword"
@@ -80,6 +99,28 @@
                     </form>
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="secretKey" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>OAuth Client ID : </th>
+                                <td style="border: none;"> {{ $secretKey[0] }}</td>
+                            </tr>
+                            <tr>
+                                <th>OAuth Client Secret : </th>
+                                <td>{{ $secretKey[1] }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

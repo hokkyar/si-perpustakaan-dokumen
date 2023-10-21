@@ -32,26 +32,29 @@ class UploadController extends Controller
       return redirect('/upload')->with('errors', 'Upload Gagal. Anda sedang offline');
     }
 
-    $documentName = $request->input('documentName');
-    $description = $request->input('description');
-    $documentDate = $request->input('documentDate');
-    $catalog = $request->input('catalog');
-    $fileDocument = $request->file('fileDocument');
-
     try {
+      $documentName = $request->input('documentName');
+      $description = $request->input('description');
+      $documentDate = $request->input('documentDate');
+      $catalog = $request->input('catalog');
+      $fileDocument = $request->file('fileDocument');
+
       Storage::disk('google')->put($fileDocument->getClientOriginalName(), File::get($fileDocument->path()));
+
+      $newDocument = new Document([
+        'drive_id' => $fileDocument->getClientOriginalName(),
+        'title' => $documentName,
+        'description' => $description,
+        'doc_date' => $documentDate,
+        'catalog' => $catalog,
+      ]);
+      $newDocument->save();
+      return redirect('/upload')->with('toast_success', 'Data berhasil disimpan');
     } catch (\Exception $e) {
+      if ($e->getCode() == 401) {
+        return redirect('/dashboard')->with('errors', 'Tambah gagal. Token tidak valid');
+      }
       return redirect('/upload')->with('errors', 'Terjadi kesalahan');
     }
-
-    $newDocument = new Document([
-      'drive_id' => $fileDocument->getClientOriginalName(),
-      'title' => $documentName,
-      'description' => $description,
-      'doc_date' => $documentDate,
-      'catalog' => $catalog,
-    ]);
-    $newDocument->save();
-    return redirect('/upload')->with('toast_success', 'Data berhasil disimpan');
   }
 }
