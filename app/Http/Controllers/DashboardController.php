@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Yaza\LaravelGoogleDriveStorage\Gdrive;
@@ -54,6 +55,7 @@ class DashboardController extends Controller
     try {
       $document = Document::find($id);
       $file = Gdrive::all('/')->where('path', '=', $document->drive_id)->first();
+      // dd(Gdrive::all('/'));
       $fileId = $file['extraMetadata']['id'];
       $visibility = $file['visibility'];
 
@@ -107,8 +109,9 @@ class DashboardController extends Controller
       if ($request->file('fileDocument')) {
         $fileDocument = $request->file('fileDocument');
         Gdrive::delete($document->drive_id); // delete old file in drive
-        $document->drive_id = $fileDocument->getClientOriginalName();
-        Storage::disk('google')->put($fileDocument->getClientOriginalName(), File::get($fileDocument->path())); // upload new one
+        $filename = uniqid('drive') . '-' . Carbon::now()->format('YmHisu') . '.' . $fileDocument->getClientOriginalExtension();
+        $document->drive_id = $filename;
+        Storage::disk('google')->put($filename, File::get($fileDocument->path())); // upload new file
       }
       $document->title = $request->input('documentName');
       $document->doc_date = $request->input('documentDate');

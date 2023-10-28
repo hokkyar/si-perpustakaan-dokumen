@@ -43,7 +43,15 @@
                             <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Tahun Dokumen</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    {{ min(json_decode($uniqueYears, true)) . ' - ' . max(json_decode($uniqueYears, true)) }}
+                                    @if (count($uniqueYears) == 0)
+                                        -
+                                    @else
+                                        @if (count($uniqueYears) == 1)
+                                            {{ min(json_decode($uniqueYears, true)) }}
+                                        @else
+                                            {{ min(json_decode($uniqueYears, true)) . ' - ' . max(json_decode($uniqueYears, true)) }}
+                                        @endif
+                                    @endif
                                 </h5>
                             </div>
                         </div>
@@ -142,12 +150,14 @@
                 @endforeach
             </datalist>
         </div>
-
     </div>
 
     <div class="card-container d-flex mt-4 gap-3 flex-wrap justify-">
         @if (count($documents) <= 0)
-            <p class="text-center">Tidak ada dokumen</p>
+            <div class="mx-auto">
+                <img src="{{ asset('img/empty-icon.png') }}" alt="empty" width="150">
+                <p class="text-center mx-auto">Belum ada dokumen...</p>
+            </div>
         @else
             @foreach ($documents as $doc)
                 <div class="card-item card mb-3 p-4">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Document;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -39,10 +40,10 @@ class UploadController extends Controller
       $catalog = $request->input('catalog');
       $fileDocument = $request->file('fileDocument');
 
-      Storage::disk('google')->put($fileDocument->getClientOriginalName(), File::get($fileDocument->path()));
-
+      $filename = uniqid('drive') . '-' . Carbon::now()->format('YmHisu') . '.' . $fileDocument->getClientOriginalExtension();
+      Storage::disk('google')->put($filename, File::get($fileDocument->path()));
       $newDocument = new Document([
-        'drive_id' => $fileDocument->getClientOriginalName(),
+        'drive_id' => $filename,
         'title' => $documentName,
         'description' => $description,
         'doc_date' => $documentDate,
