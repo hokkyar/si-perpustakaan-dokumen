@@ -34,8 +34,7 @@
             <div class="mb-4">
                 <label for="fileDocument" class="form-label">Upload File</label>
                 <input type="file" class="form-control" id="fileDocument" name="fileDocument"
-                    aria-describedby="fileDocumentHelp" accept=".pdf, .doc, .docx, .csv, .xlsx" required>
-                <div id="documentFileHelp" class="form-text">File: .pdf, .doc, .docx, .csv, .xlsx</div>
+                    aria-describedby="fileDocumentHelp" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

@@ -14,6 +14,8 @@ if (isset($link)) {
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/apple-icon.png') }}">
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <title>@yield('title')</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <link href="{{ asset('css/nucleo-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/nucleo-svg.css') }}" rel="stylesheet" />
@@ -172,7 +174,22 @@ if (isset($link)) {
         </div>
 
     </main>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        let table = new DataTable('#fileList', {
+            searching: false,
+            order: [
+                [0, 'desc']
+            ],
+            pageLength: 50,
+            language: {
+                lengthMenu: '', // Show _MENU_ entries
+                info: '', // Showing 1 to 5 of 5 entries
+            }
+        });
+    </script>
     <script src="{{ asset('js/core/popper.min.js') }}"></script>
     <script src="{{ asset('js/core/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/plugins/perfect-scrollbar.min.js') }}"></script>

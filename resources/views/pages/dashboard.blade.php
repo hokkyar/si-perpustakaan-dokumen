@@ -41,35 +41,6 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Tahun Dokumen</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                    @if (count($uniqueYears) == 0)
-                                        -
-                                    @else
-                                        @if (count($uniqueYears) == 1)
-                                            {{ min(json_decode($uniqueYears, true)) }}
-                                        @else
-                                            {{ min(json_decode($uniqueYears, true)) . ' - ' . max(json_decode($uniqueYears, true)) }}
-                                        @endif
-                                    @endif
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="ni ni-calendar-grid-58 text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Dokumen</p>
                                 <h5 class="font-weight-bolder mb-0">{{ count($documents) }}</h5>
                             </div>
@@ -153,59 +124,7 @@
     </div>
 
     <div class="card-container d-flex mt-4 gap-3 flex-wrap justify-">
-        @if (count($documents) <= 0)
-            <div class="mx-auto">
-                <img src="{{ asset('img/empty-icon.png') }}" alt="empty" width="150">
-                <p class="text-center mx-auto">Belum ada dokumen...</p>
-            </div>
-        @else
-            @foreach ($documents as $doc)
-                <div class="card-item card mb-3 p-4">
-                    <div class="d-flex flex-column h-100 p-0">
-                        <a href="{{ route('dashboard.show', $doc->id) }}"
-                            class="font-weight-bolder fs-5">{{ $doc->title }}</a>
-
-                        <p class="mb-0 mt-3">Katalog Dokumen: <span class="katalog"
-                                style="color: blue;">{{ $doc->catalog }}</span></p>
-                        <p>Tanggal Dokumen: <span class="doc-date" style="color: blue;">{{ $doc->doc_date }}</span></p>
-                    </div>
-                    <div class="mt-3">
-                        <a href="{{ route('dashboard.show', $doc->id) }}" type="button"
-                            class="btn btn-outline-primary btn-sm">Lihat
-                            Detail</a>
-                        <a href="{{ route('dashboard.download', $doc->drive_id) }}" type="button"
-                            class="btn btn-primary btn-sm">Download</a>
-                    </div>
-                </div>
-            @endforeach
-        @endif
+        @include('partials.list', $documents)
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#search-input, #search-input-katalog, #search-input-year').on('input', function() {
-                let searchTextTitle = $('#search-input').val().toLowerCase();
-                let searchTextKatalog = $('#search-input-katalog').val().toLowerCase();
-                let searchTextYear = $('#search-input-year').val();
-
-                $('.card-item').each(function() {
-                    let title = $(this).find('.font-weight-bolder').text().toLowerCase();
-                    let catalog = $(this).find('.katalog').text().toLowerCase();
-                    let year = $(this).find('.doc-date').text().split('-')[0];
-
-                    let showTitle = title.includes(searchTextTitle);
-                    let showKatalog = catalog.includes(searchTextKatalog);
-                    let showYear = year.includes(searchTextYear);
-
-                    if (showTitle && showKatalog && showYear) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-        });
-    </script>
 
 @endsection
