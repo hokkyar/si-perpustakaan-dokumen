@@ -6,7 +6,8 @@
 
 @section('content')
     <div class="card p-3">
-        <form action="{{ route('dashboard.update', $document->id) }}" method="POST" enctype="multipart/form-data">
+        <form id="form-data" action="{{ route('dashboard.update', $document->id) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="mb-3">
@@ -43,7 +44,8 @@
                 <input type="file" class="form-control" id="fileDocument" name="fileDocument"
                     aria-describedby="fileDocumentHelp">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button onclick="sendData()" id="submitButton" type="submit" class="btn btn-primary"
+                style="width: 7rem;">Submit</button>
         </form>
     </div>
 
@@ -65,4 +67,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function sendData() {
+            let documentName = $('input[name="documentName"]').val()
+            let documentDate = $('input[name="documentDate"]').val()
+            let catalog = $('input[name="catalog"]').val()
+            if (documentName != '' && documentDate != '' && catalog != '') {
+                $('#submitButton').prop('disabled', true)
+                $('#submitButton').html(`
+                  <div class="mx-2 spinner-border" style="height: 15px; width: 15px;" role="status">
+                    <span class="sr-only"></span>
+                  </div>
+                `)
+                $('#form-data').submit();
+            }
+        }
+    </script>
 @endsection
