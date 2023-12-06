@@ -22,13 +22,11 @@ class UploadController extends Controller
 {
   public function index()
   {
-    $link = true;
-    return view('pages.upload', compact('link'));
+    return view('pages.upload');
   }
 
   public function store(Request $request)
   {
-
     if (!isInternetConnected()) {
       return redirect('/upload')->with('errors', 'Upload Gagal. Anda sedang offline');
     }
@@ -40,7 +38,8 @@ class UploadController extends Controller
       $catalog = $request->input('catalog');
       $fileDocument = $request->file('fileDocument');
 
-      $filename = uniqid('drive') . '-' . Carbon::now()->format('YmHisu') . '.' . $fileDocument->getClientOriginalExtension();
+      // $filename = uniqid('drive') . '-' . Carbon::now()->format('YmHisu') . '.' . $fileDocument->getClientOriginalExtension();
+      $filename = $documentDate . ' ' . '[' . $catalog . ']' . ' ' . $documentName . '.' . $fileDocument->getClientOriginalExtension();
       Storage::disk('google')->put($filename, File::get($fileDocument->path()));
       $newDocument = new Document([
         'drive_id' => $filename,

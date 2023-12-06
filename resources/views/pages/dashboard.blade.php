@@ -76,19 +76,7 @@
     </div>
 
     <div class="d-flex align-items-center flex-wrap">
-        <div class="search-btn my-3 input-group w-100">
-            <span class="input-group-text bg-primary" style="width: 40px;" id="basic-addon1">
-                <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                    class="bi bi-search" viewBox="0 0 16 16">
-                    <path
-                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
-            </span>
-            <input id="search-input" class="form-control me-2 p-2" type="search" placeholder="Cari nama dokumen"
-                aria-label="Search">
-        </div>
-
-        <div class="search-btn input-group w-50">
+        <div class="search-btn input-group w-50 mt-3">
             <span class="input-group-text bg-primary" style="width: 40px;" id="basic-addon1">
                 <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-calendar-event" viewBox="0 0 16 16">
@@ -105,7 +93,7 @@
             </select>
         </div>
 
-        <div class="search-btn input-group w-50">
+        <div class="search-btn input-group w-50 mt-3">
             <span class="input-group-text bg-primary" style="width: 40px;" id="basic-addon1">
                 <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                     class="bi bi-funnel" viewBox="0 0 16 16">
@@ -121,9 +109,22 @@
                 @endforeach
             </datalist>
         </div>
+
+        <div class="search-btn my-2 input-group w-100">
+            <span class="input-group-text bg-primary" style="width: 40px;" id="basic-addon1">
+                <svg class="text-white" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                    class="bi bi-search" viewBox="0 0 16 16">
+                    <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg>
+            </span>
+            <input id="search-input" class="form-control me-2 p-2" type="search" placeholder="Cari nama dokumen"
+                aria-label="Search">
+        </div>
+
     </div>
 
-    <div class="card-container d-flex mt-4 gap-3 flex-wrap justify-">
+    <div class="card-container mt-2 gap-3">
         @include('partials.list', $documents)
     </div>
 
