@@ -21,13 +21,13 @@ Route::get('/', function () {
   return view('welcome');
 });
 
-Route::resource('upload', UploadController::class)->middleware('checkLogin');
-Route::resource('dashboard', DashboardController::class)->middleware('checkLogin');
-Route::get('/dashboard/download/{drive_id}', [DashboardController::class, 'download'])->name('dashboard.download')->middleware('checkLogin');
-
 Route::get('/login', [AuthController::class, 'index'])->name('page.login');
 Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::resource('upload', UploadController::class)->middleware('checkLogin');
+Route::resource('dashboard', DashboardController::class)->middleware('checkLogin');
+Route::get('/dashboard/download/{drive_id}', [DashboardController::class, 'download'])->name('dashboard.download')->middleware('checkLogin');
 
 Route::get('/settings', [SettingController::class, 'index'])->name('page.setting')->middleware('checkLogin');
 Route::put('/settings/profile', [SettingController::class, 'changeProfile'])->name('page.setting.profile')->middleware('checkLogin');
