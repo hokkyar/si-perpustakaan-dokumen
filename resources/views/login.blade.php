@@ -24,7 +24,11 @@
                 <nav
                     class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
                     <div class="container-fluid pe-0 text-center">
-                        <p class="fs-5 m-0 mx-auto">Disdikpora Buleleng <br> Sistem Perpustakaan Dokumen</p>
+                        <p class="fs-5 m-0 mx-auto text-dark text-bold">Dinas Pendidikan Kepemudaan dan Olahraga
+                            Buleleng
+                            <br>
+                            <span class="text-primary">Sistem Perpustakaan Dokumen</span>
+                        </p>
                     </div>
                 </nav>
                 <!-- End Navbar -->
