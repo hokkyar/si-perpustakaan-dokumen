@@ -106,17 +106,18 @@ class DashboardController extends Controller
 
     $document = Document::find($id);
     try {
-      if ($request->file('fileDocument')) {
-        $fileDocument = $request->file('fileDocument');
-        Gdrive::delete($document->drive_id); // delete old file in drive
-        $filename = uniqid('drive') . '-' . Carbon::now()->format('YmHisu') . '.' . $fileDocument->getClientOriginalExtension();
-        $document->drive_id = $filename;
-        Storage::disk('google')->put($filename, File::get($fileDocument->path())); // upload new file
-      }
       $document->title = $request->input('documentName');
       $document->doc_date = $request->input('documentDate');
       $document->description = $request->input('description');
       $document->catalog = $request->input('catalog');
+      if ($request->file('fileDocument')) {
+        $fileDocument = $request->file('fileDocument');
+        Gdrive::delete($document->drive_id); // delete old file in drive
+        // $filename = uniqid('drive') . '-' . Carbon::now()->format('YmHisu') . '.' . $fileDocument->getClientOriginalExtension();
+        $filename = $request->input('documentDate') . ' ' . '[' . $request->input('catalog') . ']' . ' ' . $request->input('documentName') . '.' . $fileDocument->getClientOriginalExtension();
+        $document->drive_id = $filename;
+        Storage::disk('google')->put($filename, File::get($fileDocument->path())); // upload new file
+      }
       $document->save();
     } catch (\Exception $e) {
       if ($e->getCode() == 401) {
