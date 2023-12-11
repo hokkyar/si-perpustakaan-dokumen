@@ -95,4 +95,9 @@ class SettingController extends Controller
       return redirect('/settings')->with('errors', 'Password lama salah');
     }
   }
+
+  public function setupPage()
+  {
+    return view('pages.ganti_drive.index');
+  }
 }

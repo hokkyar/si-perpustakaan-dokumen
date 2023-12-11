@@ -22,4 +22,5 @@ Route::group(['middleware' => 'checkLogin'], function () {
   Route::put('/settings/profile', [SettingController::class, 'changeProfile'])->name('page.setting.profile');
   Route::put('/settings/token', [SettingController::class, 'updateToken'])->name('page.setting.token');
   Route::put('/settings/password', [SettingController::class, 'changePassword'])->name('page.setting.password');
+  Route::get('/gdrive-setup', [SettingController::class, 'setupPage'])->name('page.setting.password');
 });
