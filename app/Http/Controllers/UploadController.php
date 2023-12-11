@@ -52,7 +52,7 @@ class UploadController extends Controller
       return redirect('/upload')->with('toast_success', 'Data berhasil disimpan');
     } catch (\Exception $e) {
       if ($e->getCode() == 401) {
-        return redirect('/dashboard')->with('errors', 'Tambah gagal. Token tidak valid');
+        return redirect('/dashboard')->with('errors', 'Tambah gagal. Kredensial atau token tidak valid');
       }
       return redirect('/upload')->with('errors', 'Terjadi kesalahan');
     }

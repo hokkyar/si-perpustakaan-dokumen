@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Document;
 use App\Models\Profile;
 use App\Models\Token;
+use Illuminate\Support\Facades\DB;
 
 function isInternetConnected()
 {
@@ -66,7 +68,12 @@ class SettingController extends Controller
 
       // change .env drive
       $envContents = file_get_contents(base_path('.env'));
-      $envContents = preg_replace("/^GOOGLE_DRIVE_REFRESH_TOKEN=.*\n/m", "GOOGLE_DRIVE_REFRESH_TOKEN={$newRefreshToken}\n", $envContents);
+      $envContents = preg_replace(
+        '/^GOOGLE_DRIVE_REFRESH_TOKEN=.*\n/m',
+        'GOOGLE_DRIVE_REFRESH_TOKEN="' . $newRefreshToken . "\"\n",
+        $envContents
+      );
+
       file_put_contents(base_path('.env'), $envContents);
 
       return redirect('/settings')->with('toast_success', 'Token berhasil diperbarui');
@@ -99,5 +106,23 @@ class SettingController extends Controller
   public function setupPage()
   {
     return view('pages.ganti_drive.index');
+  }
+
+  public function changeDrive(Request $request)
+  {
+    $envContents = file_get_contents(base_path('.env'));
+    $envContents = preg_replace(
+      '/^GOOGLE_DRIVE_CLIENT_ID=.*\n/m',
+      'GOOGLE_DRIVE_CLIENT_ID="' . $request->clientId . "\"\n",
+      $envContents
+    );
+    $envContents = preg_replace(
+      '/^GOOGLE_DRIVE_CLIENT_SECRET=.*\n/m',
+      'GOOGLE_DRIVE_CLIENT_SECRET="' . $request->clientSecret . "\"\n",
+      $envContents
+    );
+    file_put_contents(base_path('.env'), $envContents);
+    Document::truncate();
+    return redirect()->route('setupPage')->with('toast_success', 'Akun berhasil diganti');
   }
 }
