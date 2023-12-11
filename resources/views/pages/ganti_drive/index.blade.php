@@ -17,12 +17,24 @@
                 </li>
                 <li>Pastikan anda <span class="text-danger text-bold">menyimpan kredensial</span> seperti email dan password
                     dari akun google drive saat ini.</li>
-                <li>Pastikan <span class="text-danger text-bold">OAuth Client ID</span> baru dan <span
-                        class="text-danger text-bold">OAuth Client Secret</span> baru dimasukkan dengan benar. Jika tidak,
-                    anda tidak dapat melakukan upload dokumen pada sistem.</li>
-                <li>Setelah mengganti akun google drive, silahkan untuk memperbarui token di halaman <a
-                        href="{{ route('page.setting') }}"
-                        style="text-decoration: none; color: rgb(60, 60, 255);">pengaturan</a>.</li>
+                <li>Penggantian akun membutuhkan <span class="text-bold">OAuth Client ID</span> dan <span
+                        class="text-bold">OAuth Client Secret</span> dari
+                    akun google yang baru. Untuk mendapatkannya dapat melihat tutorial pada <a
+                        style="text-decoration: none; color: rgb(60, 60, 255);" class="text-bold"
+                        href="https://support.google.com/cloud/answer/6158849">Setting up OAuth 2.0</a>.
+                </li>
+                <li>Pastikan <span class="text-bold">OAuth Client ID</span> dan <span class="text-bold">OAuth Client
+                        Secret</span> yang baru dimasukkan dengan benar. Jika tidak,
+                    <span class="text-danger text-bold">anda tidak dapat melakukan upload dokumen</span> pada sistem.
+                </li>
+                <li>Jika terdapat <span class="text-danger text-bold">kesalahan dalam penginputan</span> dan sudah terlanjur
+                    submit, anda dapat memasukkan kembali
+                    <span class="text-bold">OAuth Client ID</span> dan <span class="text-bold">OAuth
+                        Client Secret</span> pada kolom input di bawah.
+                </li>
+                <li>Setelah mengganti akun google drive, silahkan untuk memperbarui token di <a class="text-bold"
+                        href="{{ route('page.setting') }}" style="text-decoration: none; color: rgb(60, 60, 255);">Halaman
+                        Pengaturan</a>.</li>
             </ol>
             <form action="{{ route('changeDrive') }}" method="POST">
                 @csrf
@@ -40,7 +52,8 @@
                         required>
                 </div>
                 <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-danger mt-2">Ganti Akun</button>
+                    <button onclick="return confirm('Ganti Akun?')" type="submit" class="btn btn-danger mt-2">Ganti
+                        Akun</button>
                 </div>
             </form>
         </div>
